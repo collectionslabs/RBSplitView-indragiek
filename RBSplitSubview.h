@@ -23,7 +23,6 @@ typedef enum {
 // Subclasses normally should use setter methods instead of changing instance variables by assignment.
 // Most getter methods simply return the corresponding instance variable, so with some care, subclasses
 // could reference them directly.
-	NSString* identifier;			// An identifier string for the subview, default is @"".
 	NSInteger tag;					// A tag integer for the subview, default is 0.
 	CGFloat minDimension;			// The minimum dimension. Must be 1.0 or any larger integer.
 	CGFloat maxDimension;			// The maximum dimension. Must be at least equal to the minDimension.
@@ -75,10 +74,6 @@ typedef enum {
 // Sets and gets the tag.
 - (void)setTag:(NSInteger)theTag;
 - (NSInteger)tag;
-
-// Sets and gets the identifier string. Will never be nil.
-- (void)setIdentifier:(NSString*)aString;
-- (NSString*)identifier;
 
 // Position means the subview's position within the RBSplitView - counts from zero left to right
 // or top to bottom. Setting it will move the subview to another position without changing its size,

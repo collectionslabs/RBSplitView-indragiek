@@ -32,19 +32,13 @@ static animationData* currentAnimation = NULL;
 		notInLimits = NO;
 		minDimension = 1.0;
 		maxDimension = WAYOUT;
-		identifier = @"";
+		self.identifier = @"";
 		previous = NSZeroRect;
 		savedSize = frame.size;
 		actDivider = NSNotFound;
 		canDragWindow = NO;
 	}
 	return self;
-}
-
-// Just releases our stuff when going away.
-- (void)dealloc {
-	[identifier release];
-	[super dealloc];
 }
 
 // These return nil since we're not a RBSplitView (they're overridden there).
@@ -138,19 +132,10 @@ static animationData* currentAnimation = NULL;
 	return tag;
 }
 
-- (void)setIdentifier:(NSString*)aString {
-	[identifier autorelease];
-	identifier = aString?[aString retain]:@"";
-}
-
-- (NSString*)identifier {
-	return identifier;
-}
-
 // If we have an identifier, this will make debugging a little easier by appending it to the
 // default description.
 - (NSString*)description {
-	return [identifier length]>0?[NSString stringWithFormat:@"%@(%@)",[super description],identifier]:[super description];
+	return [self.identifier length]>0?[NSString stringWithFormat:@"%@(%@)",[super description],self.identifier]:[super description];
 }
 
 // This pair of methods allows you to get and change the position of a subview (within the split view);
@@ -559,14 +544,12 @@ static animationData* currentAnimation = NULL;
 		[super setFrame:frame];
 	}
 	if ([coder allowsKeyedCoding]) {
-		[coder encodeObject:identifier forKey:@"identifier"];
 		[coder encodeInteger:tag forKey:@"tag"];
 		[coder encodeDouble:minDimension forKey:@"minDimension"];
 		[coder encodeDouble:maxDimension forKey:@"maxDimension"];
 		[coder encodeDouble:fraction forKey:@"fraction"];
 		[coder encodeBool:canCollapse forKey:@"canCollapse"];
 	} else {
-		[coder encodeObject:identifier];
 		[coder encodeValueOfObjCType:@encode(typeof(tag)) at:&tag];
 		[coder encodeValueOfObjCType:@encode(typeof(minDimension)) at:&minDimension];
 		[coder encodeValueOfObjCType:@encode(typeof(maxDimension)) at:&maxDimension];
@@ -582,7 +565,7 @@ static animationData* currentAnimation = NULL;
 		notInLimits = NO;
 		minDimension = 1.0;
 		maxDimension = WAYOUT;
-		identifier = @"";
+		self.identifier = @"";
 		actDivider = NSNotFound;
 		canDragWindow = NO;
 		previous = [self frame];
@@ -597,14 +580,12 @@ static animationData* currentAnimation = NULL;
 		}
 		previous = NSZeroRect;
 		if ([coder allowsKeyedCoding]) {
-			[self setIdentifier:[coder decodeObjectForKey:@"identifier"]];
 			tag = [coder decodeIntegerForKey:@"tag"];
 			minDimension = [coder decodeDoubleForKey:@"minDimension"];
 			maxDimension = [coder decodeDoubleForKey:@"maxDimension"];
 			fraction = [coder decodeDoubleForKey:@"fraction"];
 			canCollapse = [coder decodeBoolForKey:@"canCollapse"];
 		} else {
-			[self setIdentifier:[coder decodeObject]];
 			[coder decodeValueOfObjCType:@encode(typeof(tag)) at:&tag];
 			[coder decodeValueOfObjCType:@encode(typeof(minDimension)) at:&minDimension];
 			[coder decodeValueOfObjCType:@encode(typeof(maxDimension)) at:&maxDimension];
